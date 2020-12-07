@@ -1,0 +1,21 @@
+# Changelog
+
+Document last updated 6th December, 2020 (20 Kislev 5781).
+
+### Version 1.0.0
+
+First release version includes the following:
+- CHANGES, CONDUCT, COPYING, and README files that reflect the project 
+nature;
+- Corrected line endings to UNIX LF;
+- Changed the shebang to `#!/usr/bin/env perl` for portability.
+
+### Version 0.1.1
+
+- Added argument interpretation for file extensions for flexibility;
+- Refactored code to abide by most Perl::Critic recommendations.
+
+### Version 0.1.0
+
+- Simple script written to facilitate merging webm files to produce mkv
+files.
