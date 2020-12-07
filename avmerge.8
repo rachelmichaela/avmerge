@@ -1,0 +1,57 @@
+.\" Copyright (c) 2020, Rachel Michaela Bradley
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions are met:
+.\"
+.\" 1. Redistributions of source code must retain the above copyright notice, 
+.\"   this list of conditions and the following disclaimer.
+.\"
+.\" 2. Redistributions in binary form must reproduce the above copyright notice,
+.\"    this list of conditions and the following disclaimer in the documentation
+.\"    and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+.\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+.\" ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+.\" LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+.\" CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+.\" SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+.\" INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+.\" CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+.\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+.\" POSSIBILITY OF SUCH DAMAGE.
+.Dd December 7, 2020
+.Dt SSH 8
+.0s
+.Sh NAME
+.Nm avmerge
+.Nd sequential audio and video file merging.
+.Sh SYNOPSIS
+.Nm 
+.Op Ar input_file_extension
+.Op Ar output_file_extension
+.Sh DESCRIPTION
+The avmerge utility uses ffmpeg(8) to merge two sequentially named audio and
+video files into a single output file. The utility will perform this action
+for every file in the directory, or until it is interrupted.
+.Pp
+The avmerge utility requires the following arguments:
+.Bl -tag -width indent
+.It Sy input_file_extension
+The file extension shared by the two files that you wish to merge.
+.It Sy output_file_extension
+The file extension of the merged video file that will be exported by ffmpeg(8).
+.El
+.Sh EXAMPLES
+To merge each sequential pair of files that uses the webm format into a single
+file that uses the mkv format, use the following command.
+.Dl $ avmerge webm mkv
+.Sh FILES
+/usr/local/bin/avmerge
+.Sh SEE ALSO
+.Xr ffmpeg 8
+.Sh AUTHORS
+.An Rachel Michaela Bradley
+.Aq contact@delevingne.me
