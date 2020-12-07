@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Source files
+*.pl text diff=perl
+*.pm text diff=perl
