@@ -1,6 +1,11 @@
 # Changelog
 
-Document last updated 6th December, 2020 (20 Kislev 5781).
+Document last updated 17th December, 2020 (2 Tevet 5781).
+
+### Version 1.1.0
+
+- Introduced an argument to support situations where the audio and video
+files have different file extensions.
 
 ### Version 1.0.0
 
