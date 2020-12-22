@@ -2,7 +2,7 @@
 A simple Perl script that merges matching subsequent audio and video 
 files into a single file with `ffmpeg`.
 
-Document last updated 6th December, 2020 (20 Kislev 5781);
+Document last updated 22nd December, 2020 (7 Tevet 5781);
 
 ### Table of Contents
 - [About `avmerge`](#about-avmerge)
@@ -68,6 +68,8 @@ Full example:
 ```
 avmerge webm mkv
 ```
+
+Read the man page `avmerge.8` for more details.
 
 ### Contributing
 
