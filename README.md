@@ -56,9 +56,11 @@ perl avmerge.pl webm mkv
 To use `avmerge` globally, the following steps are required.
 1. Download `avmerge.pl` and rename it to `avmerge`;
 2. Move `avmerge` to your user binary directory (e.g. `/usr/local/bin`);
-3. Add your user binary directory to PATH if it is not already present;
-4. Make the file executable;
-5. Run the script via `avmerge` with two arguments:
+2. Move `avmerge.8` to your manual directory (e.g. 
+`/usr/local/share/man/man8`);
+4. Add your user binary directory to PATH if it is not already present;
+5. Make the file executable;
+6. Run the script via `avmerge` with two arguments:
 	- the first argument, `import_file_extension`, should be the file
 	extension of both of the files that you wish to merge.
 	- the second argument, `export_file_extension`, should be the file
@@ -69,7 +71,8 @@ Full example:
 avmerge webm mkv
 ```
 
-Read the man page `avmerge.8` for more details.
+Read the man page `avmerge(8)` for more details, including information 
+on additional options and arguments.
 
 ### Contributing
 
