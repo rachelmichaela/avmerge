@@ -49,6 +49,12 @@ If supplied, the file extension used by the second file that you wish to merge.
 .It Sy output_file_extension
 The file extension of the merged video file that will be exported by ffmpeg(8).
 .El
+.Pp
+The following options are available:
+.Bl -tag -width indent
+.It Sy -r
+Runs avmerge in each subdirectory of the current working directory recursively.
+.El
 .Sh EXAMPLES
 To merge each sequential pair of files that uses the webm format into a single
 file that uses the mkv format, use the following command.
