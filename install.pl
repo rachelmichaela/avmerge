@@ -46,5 +46,5 @@ if ($osstr =~ m/darwin/ || $osstr =~ m/bsd/ || $osstr =~ m/linux/) {
 	copy "${manfile}", "${mandir}/${manfile}" or die "Could not copy ${manfile} to ${mandir}\n";
 	chmod 0555, "${bindir}/${binfile}" or die "Could not set ${bindir}/${binfile} as executable.\n";
 } else {
-	printf "Your platform is not supported by this install script. Please install avmerge manually.\n";
+	printf "Your platform is not supported by this install script. Please install ${binfile} manually.\n";
 }
