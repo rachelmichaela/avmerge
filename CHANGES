@@ -2,6 +2,11 @@
 
 Document last updated 23rd December, 2020 (8 Tevet 5781).
 
+### Version 1.3.0
+
+- Created an install script to handle installing avmerge automatically.
+- Introduced an argument to run ffmpeg non-interactively.
+
 ### Version 1.2.1
 
 - Fixed a bug that was causing the script to exit before finding 
