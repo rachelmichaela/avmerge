@@ -28,14 +28,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 use warnings;
 use strict;
+use Getopt::Std;
+use Cwd;
 
-package avmerge;
+package Avmerge;
+
+my %options;
+Getopt::Std::getopts("sr", \%options);
 
 my $num_args = $#ARGV + 1;
 if ($num_args != 2 && $num_args != 3) {
-	printf "Usage: avmerge import_file_extension [second_import_file_extension] export_file_extension\n";
+	printf "Usage: avmerge [-r] import_file_extension [second_import_file_extension] export_file_extension\n";
 	printf "Example: avmerge webm mkv\n";
-	printf "See man avmerge for more details.\n";
+	printf "See avmerge(8) for more details.\n";
 	exit;
 }
 
@@ -49,21 +54,51 @@ if ($num_args == 2) {
 	our $EXPORTEXT = $ARGV[2];
 }
 
-my @files = glob q{*};
+my @dirs;
 
-for (my $i = 0; $i < @files; $i++) {
-	if ($files[$i] =~ m/$avmerge::VIMPORTEXT/msx) {
-		printf "Found: %s\n", $files[$i];
-		if ($files[$i + 1] =~ m/$avmerge::AIMPORTEXT/msx) {
-			printf "Matched: %s\n", $files[$i + 1];
-			my $export = $files[$i];
-			$export =~ s/[.].*//msx;
-			printf "Executing: ffmpeg -i ${files[$i]} -i ${files[$i + 1]} ${export}.$avmerge::EXPORTEXT\n";
-			system "ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$avmerge::EXPORTEXT\"";
-			$i++;
+if ($options{r}) {
+	recursive(Cwd::getcwd());
+	merge();
+} else {
+	push @dirs, Cwd::getcwd();
+	merge();
+}
+
+sub recursive {
+	my ($currdir) = @_;
+	if (-d $currdir) {
+		opendir my $handle, $currdir or warn "Could not open ${currdir}.\n";
+		while (my $subdir = readdir $handle) {
+			next if ($subdir eq q{.} || $subdir eq q{..});
+			push @dirs, $currdir;
+			recursive("$currdir/$subdir");
 		}
-	} else {
-		printf("No files found.\n");
-		exit;
+		close $handle;
 	}
+	return;
+}
+
+sub merge {
+	foreach my $dir (@dirs) {
+		printf "Using directory: ${dir}\n";
+		chdir($dir);
+		my @files = glob q{*};
+		for (my $i = 0;$i < @files;$i++) {
+			if ($files[$i] =~ m/$Avmerge::VIMPORTEXT/msx) {
+				printf "Found: %s\n", $files[$i];
+				if ($files[$i + 1] =~ m/$Avmerge::AIMPORTEXT/msx) {
+					printf "Matched: %s\n", $files[$i + 1];
+					my $export = $files[$i];
+					$export =~ s/[.].*//msx;
+					printf "Executing: ffmpeg -i ${files[$i]} -i ${files[$i + 1]} ${export}.$Avmerge::EXPORTEXT\n";
+					system "ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\"";
+					$i++;
+				}
+			} else {
+				printf "No files found.\n";
+				last;
+			}
+		}
+	}
+	return;
 }
