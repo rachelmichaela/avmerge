@@ -2,6 +2,10 @@
 
 Document last updated 17th December, 2020 (2 Tevet 5781).
 
+### Version 1.2.0
+
+- Introduced optional recursive subdirectory merging.
+
 ### Version 1.1.0
 
 - Introduced an argument to support situations where the audio and video
