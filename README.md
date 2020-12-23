@@ -2,7 +2,7 @@
 A simple Perl script that merges matching subsequent audio and video 
 files into a single file with `ffmpeg`.
 
-Document last updated 22nd December, 2020 (7 Tevet 5781);
+Document last updated 23nd December, 2020 (8 Tevet 5781);
 
 ### Table of Contents
 - [About `avmerge`](#about-avmerge)
@@ -54,13 +54,9 @@ perl avmerge.pl webm mkv
 ```
 
 To use `avmerge` globally, the following steps are required.
-1. Download `avmerge.pl` and rename it to `avmerge`;
-2. Move `avmerge` to your user binary directory (e.g. `/usr/local/bin`);
-2. Move `avmerge.8` to your manual directory (e.g. 
-`/usr/local/share/man/man8`);
-4. Add your user binary directory to PATH if it is not already present;
-5. Make the file executable;
-6. Run the script via `avmerge` with two arguments:
+1. Download `avmerge.pl`, `avmerge.8`, and `install.sh`;
+2. Run `install.sh` as root;
+3. Run the script via `avmerge` with two arguments:
 	- the first argument, `import_file_extension`, should be the file
 	extension of both of the files that you wish to merge.
 	- the second argument, `export_file_extension`, should be the file
