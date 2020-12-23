@@ -34,11 +34,11 @@ use Cwd;
 package Avmerge;
 
 my %options;
-Getopt::Std::getopts("sr", \%options);
+Getopt::Std::getopts('ry', \%options);
 
 my $num_args = $#ARGV + 1;
 if ($num_args != 2 && $num_args != 3) {
-	printf "Usage: avmerge [-r] import_file_extension [second_import_file_extension] export_file_extension\n";
+	printf "Usage: avmerge [-ry] import_file_extension [second_import_file_extension] export_file_extension\n";
 	printf "Example: avmerge webm mkv\n";
 	printf "See avmerge(8) for more details.\n";
 	exit;
@@ -52,6 +52,12 @@ if ($num_args == 2) {
 	our $VIMPORTEXT = $ARGV[0];
 	our $AIMPORTEXT = $ARGV[1];
 	our $EXPORTEXT = $ARGV[2];
+}
+
+if ($options{y}) {
+	our $FFMPEG = 'ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\" -y';
+} else {
+	our $FFMPEG = 'ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\"';
 }
 
 my @dirs;
@@ -73,7 +79,7 @@ sub recursive {
 			push @dirs, $currdir;
 			recursive("$currdir/$subdir");
 		}
-		close $handle;
+		close $handle or die "Could not close ${handle}.\n";
 	}
 	return;
 }
@@ -81,7 +87,7 @@ sub recursive {
 sub merge {
 	foreach my $dir (@dirs) {
 		printf "Using directory: ${dir}\n";
-		chdir($dir) or warn "Could not change to ${dir}.\n";
+		chdir $dir or warn "Could not change to ${dir}.\n";
 		my @files = glob q{*};
 		for (my $i = 0;$i < @files;$i++) {
 			if ($files[$i] =~ m/$Avmerge::VIMPORTEXT/msx) {
@@ -91,7 +97,7 @@ sub merge {
 					my $export = $files[$i];
 					$export =~ s/[.].*//msx;
 					printf "Executing: ffmpeg -i ${files[$i]} -i ${files[$i + 1]} ${export}.$Avmerge::EXPORTEXT\n";
-					system "ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\"";
+					system "$Avmerge::FFMPEG";
 					$i++;
 				} else {
 					printf "No files found.\n";
