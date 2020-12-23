@@ -2,6 +2,12 @@
 
 Document last updated 17th December, 2020 (2 Tevet 5781).
 
+### Version 1.2.1
+
+- Fixed a bug that was causing the script to exit before finding 
+matching files if there are files without the appropriate file extension
+within the directory.
+
 ### Version 1.2.0
 
 - Introduced optional recursive subdirectory merging.
