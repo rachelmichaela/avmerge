@@ -81,7 +81,7 @@ sub recursive {
 sub merge {
 	foreach my $dir (@dirs) {
 		printf "Using directory: ${dir}\n";
-		chdir($dir);
+		chdir($dir) or warn "Could not change to ${dir}.\n";
 		my @files = glob q{*};
 		for (my $i = 0;$i < @files;$i++) {
 			if ($files[$i] =~ m/$Avmerge::VIMPORTEXT/msx) {
@@ -93,10 +93,10 @@ sub merge {
 					printf "Executing: ffmpeg -i ${files[$i]} -i ${files[$i + 1]} ${export}.$Avmerge::EXPORTEXT\n";
 					system "ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\"";
 					$i++;
+				} else {
+					printf "No files found.\n";
+					last;
 				}
-			} else {
-				printf "No files found.\n";
-				last;
 			}
 		}
 	}
