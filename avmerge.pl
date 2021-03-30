@@ -34,11 +34,11 @@ use Cwd;
 package Avmerge;
 
 my %options;
-Getopt::Std::getopts('ry', \%options);
+Getopt::Std::getopts('dryx', \%options);
 
 my $num_args = $#ARGV + 1;
-if ($num_args != 2 && $num_args != 3) {
-	printf "Usage: avmerge [-ry] import_file_extension [second_import_file_extension] export_file_extension\n";
+if ($num_args != 2 && $num_args != 3 && $num_args != 4) {
+	printf "Usage: avmerge [-dryx] import_file_extension [second_import_file_extension] export_file_extension [ffmeg_string]\n";
 	printf "Example: avmerge webm mkv\n";
 	printf "See avmerge(8) for more details.\n";
 	exit;
@@ -48,16 +48,32 @@ if ($num_args == 2) {
 	our $VIMPORTEXT = $ARGV[0];
 	our $AIMPORTEXT = $VIMPORTEXT;
 	our $EXPORTEXT = $ARGV[1];
+	our $FFMPEGSTR = q{};
+} elsif ($num_args == 3 && $options{x}) {
+	our $VIMPORTEXT = $ARGV[0];
+	our $AIMPORTEXT = $VIMPORTEXT;
+	our $EXPORTEXT = $ARGV[1];
+	our $FFMPEGSTR = $ARGV[2];
+} elsif ($num_args == 4 && $options{x}) {
+	our $VIMPORTEXT = $ARGV[0];
+	our $AIMPORTEXT = $ARGV[1];
+	our $EXPORTEXT = $ARGV[2];
+	our $FFMPEGSTR = $ARGV[3];
 } else {
 	our $VIMPORTEXT = $ARGV[0];
 	our $AIMPORTEXT = $ARGV[1];
 	our $EXPORTEXT = $ARGV[2];
+	our $FFMPEGSTR = q{};
 }
 
 if ($options{y}) {
 	our $FFMPEG = 'ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\" -y';
 } else {
 	our $FFMPEG = 'ffmpeg -i \"${files[$i]}\" -i \"${files[$i + 1]}\" \"${export}.$Avmerge::EXPORTEXT\"';
+}
+
+if ($options{x}) {
+	our $FFMPEG = $Avmerge::FFMPEG . $Avmerge::FFMPEGSTR;
 }
 
 my @dirs;
@@ -96,8 +112,14 @@ sub merge {
 					printf "Matched: %s\n", $files[$i + 1];
 					my $export = $files[$i];
 					$export =~ s/[.].*//msx;
-					printf "Executing: ffmpeg -i ${files[$i]} -i ${files[$i + 1]} ${export}.$Avmerge::EXPORTEXT\n";
+					printf "Executing: $Avmerge::FFMPEG\n";
 					system "$Avmerge::FFMPEG";
+					if ($options{d}) {
+						printf "Deleting $files[$i]\n"
+						system "rm $files[$i]";
+						printf "Deleting $files[$i + 1]\n"
+						system "rm $files[$i + 1]";
+					}
 					$i++;
 				} else {
 					printf "No files found.\n";
